@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OAuth</title>
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <h1>OAuth</h1>
+    <button id="loginButton">Login with Google</button>
+    <script>
+        const CLIENT_ID = ''; // client id likhni h
+        const REDIRECT_URI = 'http://localhost:5000/callback';
+        const SCOPE = 'https://www.googleapis.com/auth/userinfo.email';
+
+        function handleLogin() {
+            const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${SCOPE}`;
+            window.location.replace(url);
+        }
+
+        document.getElementById('loginButton').addEventListener('click', handleLogin);
+
+        function handleCallback() {
+            const hash = window.location.hash.substr(1);
+            const params = new URLSearchParams(hash);
+            const accessToken = params.get('access_token');
+            console.log('Access token:', accessToken);
+        }
+
+        if (window.location.href.includes(REDIRECT_URI)) {
+            handleCallback();
+        }
+
+    </script>
+</body>
+
+</html>
